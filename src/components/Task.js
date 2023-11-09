@@ -5,6 +5,13 @@ import { Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { jobApi } from '../services/job';
 
+const PRIORITY_3 = 'rgba(209, 69, 59, 0.4)';
+const PRIORITY_2 = 'rgba(235, 137, 9, 0.4)';
+const PRIORITY_1 = 'rgba(222, 225, 230, 0.47)';
+
+const getColor = (priority) =>
+    priority === 1 ? PRIORITY_1 : priority === 2 ? PRIORITY_2 : PRIORITY_3;
+
 export default function Task({ task, refetch }) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -22,7 +29,12 @@ export default function Task({ task, refetch }) {
     };
 
     return (
-        <View style={styles.container}>
+        <View
+            style={[
+                styles.container,
+                { backgroundColor: getColor(task.priority) },
+            ]}
+        >
             <Image
                 source={require('../../assets/check_icon.png')}
                 style={styles.image}

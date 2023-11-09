@@ -7,7 +7,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, SegmentedButtons, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import BackBtn from '../components/BackBtn';
 import User from '../components/User';
@@ -17,6 +17,7 @@ export default function Screen03({ navigation, route }) {
     const isEdit = route.params?.isEdit ?? false;
     const task = route.params?.task;
 
+    const [priority, setPriority] = useState(1);
     const [job, setJob] = useState(task?.title ?? '');
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function Screen03({ navigation, route }) {
                     body: {
                         ...task,
                         title: job,
+                        priority,
                         date: new Date(),
                     },
                 }),
@@ -41,7 +43,7 @@ export default function Screen03({ navigation, route }) {
                 jobApi.endpoints.postNotes.initiate({
                     title: job,
                     date: new Date(),
-                    priority: 1,
+                    priority,
                     isLongTerm: true,
                     user: user.id,
                 }),
@@ -78,6 +80,41 @@ export default function Screen03({ navigation, route }) {
                         ]}
                         value={job}
                         onChangeText={setJob}
+                    />
+                </View>
+
+                <View style={styles.priority}>
+                    <Text style={styles.priorityTitle}>Priority</Text>
+                    <SegmentedButtons
+                        value={priority}
+                        onValueChange={setPriority}
+                        buttons={[
+                            {
+                                value: 1,
+                                label: '1',
+                                style: {
+                                    backgroundColor:
+                                        'rgba(222, 225, 230, 0.47)',
+                                },
+                                showSelectedCheck: true,
+                            },
+                            {
+                                value: 2,
+                                label: '2',
+                                style: {
+                                    backgroundColor: 'rgba(235, 137, 9, 0.4)',
+                                },
+                                showSelectedCheck: true,
+                            },
+                            {
+                                value: 3,
+                                label: '3',
+                                style: {
+                                    backgroundColor: 'rgba(209, 69, 59, 0.4)',
+                                },
+                                showSelectedCheck: true,
+                            },
+                        ]}
                     />
                 </View>
 
@@ -168,5 +205,14 @@ const styles = StyleSheet.create({
     image: {
         width: 190,
         height: 170,
+    },
+    priority: {
+        marginHorizontal: 20,
+        marginTop: 30,
+        gap: 6,
+    },
+    priorityTitle: {
+        fontSize: 16,
+        lineHeight: 24,
     },
 });
