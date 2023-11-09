@@ -13,6 +13,7 @@ import { store } from './src/app/store';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import Registry from './src/screens/Registry';
+import Screen03 from './src/screens/Screen03';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,10 @@ const screens = [
         name: 'Registry',
         component: Registry,
     },
+    {
+        name: 'Screen03',
+        component: Screen03,
+    },
 ];
 
 function App() {
@@ -57,7 +62,7 @@ function App() {
                 <NavigationContainer>
                     <Stack.Navigator
                         screenOptions={{ headerShown: false }}
-                        initialRouteName='Home'
+                        initialRouteName='Screen03'
                     >
                         {screens.map((screen) => (
                             <Stack.Screen key={uuid.v4()} {...screen} />
