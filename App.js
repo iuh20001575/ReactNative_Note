@@ -57,7 +57,7 @@ function App() {
                 <NavigationContainer>
                     <Stack.Navigator
                         screenOptions={{ headerShown: false }}
-                        initialRouteName='Login'
+                        initialRouteName='Home'
                     >
                         {screens.map((screen) => (
                             <Stack.Screen key={uuid.v4()} {...screen} />
