@@ -7,32 +7,25 @@ import {
     Text,
     TextInput,
 } from 'react-native-paper';
-import configs from '../configs';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../features/user/userSlice';
 
 export default function Login({ navigation }) {
     const [hiddenPassword, setHiddenPassword] = useState(true);
-    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('thaoanhhaa1');
     const [password, setPassword] = useState('111111');
     const [error, setError] = useState(false);
+    const loading = useSelector((state) => state.user.loading);
+
+    const dispatch = useDispatch();
 
     const handleLogin = async () => {
         setError(false);
-        setLoading(true);
 
-        const res = await fetch(`${configs.ENDPOINT_DEV}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+        const res = await dispatch(login({ username, password })).unwrap();
 
         if (res.status === 200) navigation.navigate('Home');
-        else {
-            setError(true);
-            setLoading(false);
-        }
+        else setError(true);
     };
 
     const handleToggleShowPassword = () => setHiddenPassword((prev) => !prev);

@@ -8,6 +8,8 @@ import {
     PaperProvider,
 } from 'react-native-paper';
 import uuid from 'react-native-uuid';
+import { Provider } from 'react-redux';
+import { store } from './src/app/store';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 
@@ -51,15 +53,17 @@ const screens = [
 
 function App() {
     return (
-        <PaperProvider theme={theme}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName='Login'>
-                    {screens.map((screen) => (
-                        <Stack.Screen key={uuid.v4()} {...screen} />
-                    ))}
-                </Stack.Navigator>
-            </NavigationContainer>
-        </PaperProvider>
+        <Provider store={store}>
+            <PaperProvider theme={theme}>
+                <NavigationContainer>
+                    <Stack.Navigator initialRouteName='Login'>
+                        {screens.map((screen) => (
+                            <Stack.Screen key={uuid.v4()} {...screen} />
+                        ))}
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </PaperProvider>
+        </Provider>
     );
 }
 
