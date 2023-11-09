@@ -27,8 +27,18 @@ export const jobApi = createApi({
                 body,
             }),
         }),
+        delete: builder.query({
+            query: (id) => ({
+                url: `notes/${id}`,
+                method: 'delete',
+            }),
+        }),
     }),
 });
 
-export const { useGetNotesByUserQuery, usePostNotesQuery, usePatchNotesQuery } =
-    jobApi;
+export const {
+    useGetNotesByUserQuery,
+    usePostNotesQuery,
+    usePatchNotesQuery,
+    useDeleteQuery,
+} = jobApi;

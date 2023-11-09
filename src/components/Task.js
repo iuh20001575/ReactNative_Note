@@ -2,15 +2,23 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { jobApi } from '../services/job';
 
-export default function Task({ task }) {
+export default function Task({ task, refetch }) {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const handleEditJob = () => {
         navigation.navigate('Screen03', {
             isEdit: true,
             task,
         });
+    };
+
+    const handleDeleteJob = async () => {
+        await dispatch(jobApi.endpoints.delete.initiate(task.id)).unwrap();
+        refetch();
     };
 
     return (
@@ -26,6 +34,12 @@ export default function Task({ task }) {
                     style={styles.image}
                 />
             </Pressable>
+            <Pressable onPress={handleDeleteJob}>
+                <Image
+                    source={require('../../assets/delete.png')}
+                    style={styles.image}
+                />
+            </Pressable>
         </View>
     );
 }
@@ -37,6 +51,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         gap: 12,
         flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: 'rgba(222, 225, 230, 0.47)',
         shadowColor: 'rgba(23, 26, 31, 0.15)',
         shadowOffset: {

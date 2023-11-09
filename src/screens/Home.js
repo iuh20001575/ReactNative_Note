@@ -63,7 +63,9 @@ export default function Home({ navigation }) {
 
                 <View style={styles.list}>
                     {isLoading ||
-                        data.map((task) => <Task task={task} key={task.id} />)}
+                        data.map((task) => (
+                            <Task refetch={refetch} task={task} key={task.id} />
+                        ))}
                 </View>
 
                 <Pressable style={styles.addBtn} onPress={handleAddJob}>
