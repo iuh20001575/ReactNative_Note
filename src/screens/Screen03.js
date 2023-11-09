@@ -1,18 +1,41 @@
+import React, { useState } from 'react';
 import {
     Image,
     Platform,
-    Pressable,
     SafeAreaView,
     StyleSheet,
     TextInput,
     View,
 } from 'react-native';
-import React from 'react';
+import { Button, Text } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import BackBtn from '../components/BackBtn';
 import User from '../components/User';
-import { Text } from 'react-native-paper';
+import { jobApi } from '../services/job';
 
-export default function Screen03() {
+export default function Screen03({ navigation }) {
+    const [job, setJob] = useState('');
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+
+    const handleAddJob = async () => {
+        setLoading(true);
+
+        await dispatch(
+            jobApi.endpoints.postNotes.initiate({
+                title: job,
+                date: new Date(),
+                priority: 1,
+                isLongTerm: true,
+                user: user.id,
+            }),
+        ).unwrap();
+
+        setLoading(false);
+        navigation.navigate('Home');
+    };
+
     return (
         <SafeAreaView style={styles.flex1}>
             <View style={styles.container}>
@@ -29,22 +52,29 @@ export default function Screen03() {
                         style={styles.searchImage}
                     />
                     <TextInput
-                        placeholder='Search'
+                        placeholder='input your job'
                         placeholderTextColor='rgba(23, 26, 31, 1)'
                         style={[
                             styles.searchInput,
                             Platform.OS === 'web' && { outline: 'none' },
                         ]}
+                        value={job}
+                        onChangeText={setJob}
                     />
                 </View>
 
-                <Pressable style={styles.btn}>
+                <Button
+                    loading={loading}
+                    style={styles.btn}
+                    mode='contained'
+                    onPress={handleAddJob}
+                >
                     <Image
                         resizeMode='contain'
                         source={require('../../assets/finish.png')}
                         style={styles.btnText}
                     />
-                </Pressable>
+                </Button>
 
                 <View
                     style={[

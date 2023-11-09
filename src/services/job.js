@@ -13,7 +13,14 @@ export const jobApi = createApi({
                 },
             }),
         }),
+        postNotes: builder.query({
+            query: (body) => ({
+                url: 'notes',
+                method: 'post',
+                body,
+            }),
+        }),
     }),
 });
 
-export const { useGetNotesByUserQuery } = jobApi;
+export const { useGetNotesByUserQuery, usePostNotesQuery } = jobApi;

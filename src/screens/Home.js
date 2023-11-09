@@ -1,4 +1,5 @@
-import React from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import {
     Image,
     Platform,
@@ -16,10 +17,17 @@ import User from '../components/User';
 import { useGetNotesByUserQuery } from '../services/job';
 
 export default function Home({ navigation }) {
+    const focused = useIsFocused();
     const user = useSelector((state) => state.user);
-    const { data, isLoading } = useGetNotesByUserQuery(user?.user.id);
+    const { data, isLoading, refetch } = useGetNotesByUserQuery(user?.user.id, {
+        refetchOnReconnect: true,
+    });
 
     const handleAddJob = () => navigation.navigate('Screen03');
+
+    useEffect(() => {
+        focused && refetch();
+    }, [focused]);
 
     return (
         <SafeAreaView style={styles.flex1}>

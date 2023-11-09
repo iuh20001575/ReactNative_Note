@@ -8,5 +8,7 @@ export const store = configureStore({
         [jobApi.reducerPath]: jobApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(jobApi.middleware),
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }).concat(jobApi.middleware),
 });
