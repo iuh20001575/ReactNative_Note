@@ -1,8 +1,18 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 export default function Task({ task }) {
+    const navigation = useNavigation();
+
+    const handleEditJob = () => {
+        navigation.navigate('Screen03', {
+            isEdit: true,
+            task,
+        });
+    };
+
     return (
         <View style={styles.container}>
             <Image
@@ -10,10 +20,12 @@ export default function Task({ task }) {
                 style={styles.image}
             />
             <Text style={styles.title}>{task.title}</Text>
-            <Image
-                source={require('../../assets/edit_icon.png')}
-                style={styles.image}
-            />
+            <Pressable onPress={handleEditJob}>
+                <Image
+                    source={require('../../assets/edit_icon.png')}
+                    style={styles.image}
+                />
+            </Pressable>
         </View>
     );
 }

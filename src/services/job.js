@@ -20,7 +20,15 @@ export const jobApi = createApi({
                 body,
             }),
         }),
+        patchNotes: builder.query({
+            query: ({ id, body }) => ({
+                url: `notes/${id}`,
+                method: 'put',
+                body,
+            }),
+        }),
     }),
 });
 
-export const { useGetNotesByUserQuery, usePostNotesQuery } = jobApi;
+export const { useGetNotesByUserQuery, usePostNotesQuery, usePatchNotesQuery } =
+    jobApi;

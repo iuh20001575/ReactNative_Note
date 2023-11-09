@@ -13,8 +13,11 @@ import BackBtn from '../components/BackBtn';
 import User from '../components/User';
 import { jobApi } from '../services/job';
 
-export default function Screen03({ navigation }) {
-    const [job, setJob] = useState('');
+export default function Screen03({ navigation, route }) {
+    const isEdit = route.params?.isEdit ?? false;
+    const task = route.params?.task;
+
+    const [job, setJob] = useState(task?.title ?? '');
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -22,15 +25,28 @@ export default function Screen03({ navigation }) {
     const handleAddJob = async () => {
         setLoading(true);
 
-        await dispatch(
-            jobApi.endpoints.postNotes.initiate({
-                title: job,
-                date: new Date(),
-                priority: 1,
-                isLongTerm: true,
-                user: user.id,
-            }),
-        ).unwrap();
+        if (isEdit) {
+            await dispatch(
+                jobApi.endpoints.patchNotes.initiate({
+                    id: user.id,
+                    body: {
+                        ...task,
+                        title: job,
+                        date: new Date(),
+                    },
+                }),
+            ).unwrap();
+        } else {
+            await dispatch(
+                jobApi.endpoints.postNotes.initiate({
+                    title: job,
+                    date: new Date(),
+                    priority: 1,
+                    isLongTerm: true,
+                    user: user.id,
+                }),
+            ).unwrap();
+        }
 
         setLoading(false);
         navigation.navigate('Home');
@@ -44,7 +60,9 @@ export default function Screen03({ navigation }) {
                     <BackBtn />
                 </View>
 
-                <Text style={styles.title}>ADD YOUR JOB</Text>
+                <Text style={styles.title}>
+                    {isEdit ? 'EDIT' : 'ADD'} YOUR JOB
+                </Text>
 
                 <View style={styles.searchWrapper}>
                     <Image
