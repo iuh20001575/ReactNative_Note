@@ -15,9 +15,11 @@ import Task from '../components/Task';
 import User from '../components/User';
 import { useGetNotesByUserQuery } from '../services/job';
 
-export default function Home() {
+export default function Home({ navigation }) {
     const user = useSelector((state) => state.user);
     const { data, isLoading } = useGetNotesByUserQuery(user?.user.id);
+
+    const handleAddJob = () => navigation.navigate('Screen03');
 
     return (
         <SafeAreaView style={styles.flex1}>
@@ -56,7 +58,7 @@ export default function Home() {
                         data.map((task) => <Task task={task} key={task.id} />)}
                 </View>
 
-                <Pressable style={styles.addBtn}>
+                <Pressable style={styles.addBtn} onPress={handleAddJob}>
                     <Image
                         source={require('../../assets/add_icon.png')}
                         style={styles.addImage}
