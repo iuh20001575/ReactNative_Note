@@ -40,7 +40,9 @@ export default function Task({ task, refetch }) {
                 style={styles.image}
             />
             <View style={styles.info}>
-                <Text style={styles.title}>{task.title}</Text>
+                <Text style={styles.title} numberOfLines={1}>
+                    {task.title}
+                </Text>
                 {task.isLongTerm && <Text style={styles.term}>Long term</Text>}
             </View>
             <Pressable onPress={handleEditJob}>

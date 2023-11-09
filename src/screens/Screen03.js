@@ -32,30 +32,31 @@ export default function Screen03({ navigation, route }) {
     const handleAddJob = async () => {
         setLoading(true);
 
-        if (isEdit) {
-            await dispatch(
-                jobApi.endpoints.patchNotes.initiate({
-                    id: user.id,
-                    body: {
-                        ...task,
+        if (job)
+            if (isEdit) {
+                await dispatch(
+                    jobApi.endpoints.patchNotes.initiate({
+                        id: user.id,
+                        body: {
+                            ...task,
+                            title: job,
+                            priority,
+                            date: new Date(),
+                            isLongTerm,
+                        },
+                    }),
+                ).unwrap();
+            } else {
+                await dispatch(
+                    jobApi.endpoints.postNotes.initiate({
                         title: job,
-                        priority,
                         date: new Date(),
+                        priority,
                         isLongTerm,
-                    },
-                }),
-            ).unwrap();
-        } else {
-            await dispatch(
-                jobApi.endpoints.postNotes.initiate({
-                    title: job,
-                    date: new Date(),
-                    priority,
-                    isLongTerm,
-                    user: user.id,
-                }),
-            ).unwrap();
-        }
+                        user: user.id,
+                    }),
+                ).unwrap();
+            }
 
         setLoading(false);
         navigation.navigate('Home');

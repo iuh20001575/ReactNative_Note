@@ -1,8 +1,11 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 export default function User() {
+    const user = useSelector((state) => state.user.user);
+
     return (
         <View style={styles.container}>
             <Image
@@ -10,7 +13,7 @@ export default function User() {
                 style={styles.avatar}
             />
             <View>
-                <Text style={styles.name}>Hi Twinkle</Text>
+                <Text style={styles.name}>Hi {user.name}</Text>
                 <Text style={styles.desc}>Have agrate day a head</Text>
             </View>
         </View>
