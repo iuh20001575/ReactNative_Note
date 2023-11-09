@@ -3,7 +3,7 @@ import configs from '../configs';
 
 export const jobApi = createApi({
     reducerPath: 'jobApi',
-    baseQuery: fetchBaseQuery({ baseUrl: configs.ENDPOINT_DEV }),
+    baseQuery: fetchBaseQuery({ baseUrl: configs.ENDPOINT_PRO }),
     endpoints: (builder) => ({
         getNotesByUser: builder.query({
             query: (userId) => ({

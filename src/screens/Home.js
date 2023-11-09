@@ -5,6 +5,8 @@ import {
     Platform,
     Pressable,
     SafeAreaView,
+    ScrollView,
+    StatusBar,
     StyleSheet,
     TextInput,
     View,
@@ -30,8 +32,8 @@ export default function Home({ navigation }) {
     }, [focused]);
 
     return (
-        <SafeAreaView style={styles.flex1}>
-            <View style={styles.container}>
+        <SafeAreaView style={[styles.flex1, styles.safeAreaView]}>
+            <ScrollView style={styles.container}>
                 <View style={styles.header}>
                     <BackBtn />
                     <User />
@@ -74,7 +76,7 @@ export default function Home({ navigation }) {
                         style={styles.addImage}
                     />
                 </Pressable>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -132,5 +134,8 @@ const styles = StyleSheet.create({
     },
     loading: {
         marginTop: 40,
+    },
+    safeAreaView: {
+        paddingTop: StatusBar.currentHeight,
     },
 });

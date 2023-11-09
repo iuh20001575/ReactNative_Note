@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import {
     Image,
+    Keyboard,
+    KeyboardAvoidingView,
     Platform,
     SafeAreaView,
+    StatusBar,
     StyleSheet,
     TextInput,
+    TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import {
@@ -63,113 +67,134 @@ export default function Screen03({ navigation, route }) {
     };
 
     return (
-        <SafeAreaView style={styles.flex1}>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <User />
-                    <BackBtn />
-                </View>
-
-                <Text style={styles.title}>
-                    {isEdit ? 'EDIT' : 'ADD'} YOUR JOB
-                </Text>
-
-                <View style={styles.searchWrapper}>
-                    <Image
-                        source={require('../../assets/job_icon.png')}
-                        style={styles.searchImage}
-                    />
-                    <TextInput
-                        placeholder='input your job'
-                        placeholderTextColor='rgba(23, 26, 31, 1)'
-                        style={[
-                            styles.searchInput,
-                            Platform.OS === 'web' && { outline: 'none' },
-                        ]}
-                        value={job}
-                        onChangeText={setJob}
-                    />
-                </View>
-
-                <View style={styles.priority}>
-                    <Text style={styles.priorityTitle}>Priority</Text>
-                    <SegmentedButtons
-                        value={priority}
-                        onValueChange={setPriority}
-                        buttons={[
-                            {
-                                value: 1,
-                                label: '1',
-                                style: {
-                                    backgroundColor:
-                                        'rgba(222, 225, 230, 0.47)',
-                                },
-                                showSelectedCheck: true,
-                            },
-                            {
-                                value: 2,
-                                label: '2',
-                                style: {
-                                    backgroundColor: 'rgba(235, 137, 9, 0.4)',
-                                },
-                                showSelectedCheck: true,
-                            },
-                            {
-                                value: 3,
-                                label: '3',
-                                style: {
-                                    backgroundColor: 'rgba(209, 69, 59, 0.4)',
-                                },
-                                showSelectedCheck: true,
-                            },
-                        ]}
-                    />
-                </View>
-
-                <View style={styles.radios}>
-                    <View style={styles.radio}>
-                        <RadioButton
-                            value='Short Term'
-                            status={isLongTerm ? 'unchecked' : 'checked'}
-                            onPress={() => setLongTerm(false)}
-                        />
-                        <Text style={styles.priorityTitle}>Short Term</Text>
-                    </View>
-                    <View style={styles.radio}>
-                        <RadioButton
-                            value='Long Term'
-                            status={isLongTerm ? 'checked' : 'unchecked'}
-                            onPress={() => setLongTerm(true)}
-                        />
-                        <Text style={styles.priorityTitle}>Long Term</Text>
-                    </View>
-                </View>
-
-                <Button
-                    loading={loading}
-                    style={styles.btn}
-                    mode='contained'
-                    onPress={handleAddJob}
+        <SafeAreaView style={[styles.flex1, styles.safeAreaView]}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.container}
+            >
+                <TouchableWithoutFeedback
+                    onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}
                 >
-                    <Image
-                        resizeMode='contain'
-                        source={require('../../assets/finish.png')}
-                        style={styles.btnText}
-                    />
-                </Button>
+                    <View>
+                        <View style={styles.header}>
+                            <User />
+                            <BackBtn />
+                        </View>
 
-                <View
-                    style={[
-                        styles.flex1,
-                        { justifyContent: 'center', alignItems: 'center' },
-                    ]}
-                >
-                    <Image
-                        source={require('../../assets/image.png')}
-                        style={styles.image}
-                    />
-                </View>
-            </View>
+                        <Text style={styles.title}>
+                            {isEdit ? 'EDIT' : 'ADD'} YOUR JOB
+                        </Text>
+
+                        <View style={styles.searchWrapper}>
+                            <Image
+                                source={require('../../assets/job_icon.png')}
+                                style={styles.searchImage}
+                            />
+                            <TextInput
+                                placeholder='input your job'
+                                placeholderTextColor='rgba(23, 26, 31, 1)'
+                                style={[
+                                    styles.searchInput,
+                                    Platform.OS === 'web' && {
+                                        outline: 'none',
+                                    },
+                                ]}
+                                value={job}
+                                onChangeText={setJob}
+                            />
+                        </View>
+
+                        <View style={styles.priority}>
+                            <Text style={styles.priorityTitle}>Priority</Text>
+                            <SegmentedButtons
+                                value={priority}
+                                onValueChange={setPriority}
+                                buttons={[
+                                    {
+                                        value: 1,
+                                        label: '1',
+                                        style: {
+                                            backgroundColor:
+                                                'rgba(222, 225, 230, 0.47)',
+                                        },
+                                        showSelectedCheck: true,
+                                    },
+                                    {
+                                        value: 2,
+                                        label: '2',
+                                        style: {
+                                            backgroundColor:
+                                                'rgba(235, 137, 9, 0.4)',
+                                        },
+                                        showSelectedCheck: true,
+                                    },
+                                    {
+                                        value: 3,
+                                        label: '3',
+                                        style: {
+                                            backgroundColor:
+                                                'rgba(209, 69, 59, 0.4)',
+                                        },
+                                        showSelectedCheck: true,
+                                    },
+                                ]}
+                            />
+                        </View>
+
+                        <View style={styles.radios}>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value='Short Term'
+                                    status={
+                                        isLongTerm ? 'unchecked' : 'checked'
+                                    }
+                                    onPress={() => setLongTerm(false)}
+                                />
+                                <Text style={styles.priorityTitle}>
+                                    Short Term
+                                </Text>
+                            </View>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value='Long Term'
+                                    status={
+                                        isLongTerm ? 'checked' : 'unchecked'
+                                    }
+                                    onPress={() => setLongTerm(true)}
+                                />
+                                <Text style={styles.priorityTitle}>
+                                    Long Term
+                                </Text>
+                            </View>
+                        </View>
+
+                        <Button
+                            loading={loading}
+                            style={styles.btn}
+                            mode='contained'
+                            onPress={handleAddJob}
+                        >
+                            <Image
+                                resizeMode='contain'
+                                source={require('../../assets/finish.png')}
+                                style={styles.btnText}
+                            />
+                        </Button>
+
+                        <View
+                            style={[
+                                styles.flex1,
+                                { marginTop: 70, alignItems: 'center' },
+                            ]}
+                        >
+                            <Image
+                                source={require('../../assets/image.png')}
+                                style={styles.image}
+                            />
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
@@ -214,6 +239,7 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         height: 44,
         color: 'rgba(23, 26, 31, 1)',
+        flex: 1,
     },
     btn: {
         width: 190,
@@ -252,5 +278,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
+    },
+    safeAreaView: {
+        paddingTop: StatusBar.currentHeight,
     },
 });

@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const login = createAsyncThunk('user/login', async ({ username, password }) => {
-    const res = await fetch(`${configs.ENDPOINT_DEV}/login`, {
+    const res = await fetch(`${configs.ENDPOINT_PRO}/login`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -18,7 +18,7 @@ const login = createAsyncThunk('user/login', async ({ username, password }) => {
 });
 
 const registry = createAsyncThunk('user/registry', async (data) => {
-    const res = await fetch(`${configs.ENDPOINT_DEV}/users`, {
+    const res = await fetch(`${configs.ENDPOINT_PRO}/users`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
