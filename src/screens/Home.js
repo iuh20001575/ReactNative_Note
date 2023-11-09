@@ -8,13 +8,16 @@ import {
     TextInput,
     View,
 } from 'react-native';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import BackBtn from '../components/BackBtn';
 import Task from '../components/Task';
 import User from '../components/User';
+import { useGetNotesByUserQuery } from '../services/job';
 
 export default function Home() {
     const user = useSelector((state) => state.user);
+    const { data, isLoading } = useGetNotesByUserQuery(user?.user.id);
 
     return (
         <SafeAreaView style={styles.flex1}>
@@ -39,8 +42,18 @@ export default function Home() {
                     />
                 </View>
 
+                {isLoading && (
+                    <ActivityIndicator
+                        size='large'
+                        style={styles.loading}
+                        animating={true}
+                        color={MD2Colors.red800}
+                    />
+                )}
+
                 <View style={styles.list}>
-                    <Task />
+                    {isLoading ||
+                        data.map((task) => <Task task={task} key={task.id} />)}
                 </View>
 
                 <Pressable style={styles.addBtn}>
@@ -104,5 +117,8 @@ const styles = StyleSheet.create({
     addImage: {
         width: 32,
         height: 32,
+    },
+    loading: {
+        marginTop: 40,
     },
 });

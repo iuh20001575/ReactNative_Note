@@ -2,14 +2,14 @@ import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-export default function Task() {
+export default function Task({ task }) {
     return (
         <View style={styles.container}>
             <Image
                 source={require('../../assets/check_icon.png')}
                 style={styles.image}
             />
-            <Text style={styles.title}>To check email</Text>
+            <Text style={styles.title}>{task.title}</Text>
             <Image
                 source={require('../../assets/edit_icon.png')}
                 style={styles.image}
