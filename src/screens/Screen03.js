@@ -7,7 +7,12 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { Button, SegmentedButtons, Text } from 'react-native-paper';
+import {
+    Button,
+    RadioButton,
+    SegmentedButtons,
+    Text,
+} from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import BackBtn from '../components/BackBtn';
 import User from '../components/User';
@@ -17,6 +22,7 @@ export default function Screen03({ navigation, route }) {
     const isEdit = route.params?.isEdit ?? false;
     const task = route.params?.task;
 
+    const [isLongTerm, setLongTerm] = useState(false);
     const [priority, setPriority] = useState(1);
     const [job, setJob] = useState(task?.title ?? '');
     const user = useSelector((state) => state.user.user);
@@ -35,6 +41,7 @@ export default function Screen03({ navigation, route }) {
                         title: job,
                         priority,
                         date: new Date(),
+                        isLongTerm,
                     },
                 }),
             ).unwrap();
@@ -44,7 +51,7 @@ export default function Screen03({ navigation, route }) {
                     title: job,
                     date: new Date(),
                     priority,
-                    isLongTerm: true,
+                    isLongTerm,
                     user: user.id,
                 }),
             ).unwrap();
@@ -118,6 +125,25 @@ export default function Screen03({ navigation, route }) {
                     />
                 </View>
 
+                <View style={styles.radios}>
+                    <View style={styles.radio}>
+                        <RadioButton
+                            value='Short Term'
+                            status={isLongTerm ? 'unchecked' : 'checked'}
+                            onPress={() => setLongTerm(false)}
+                        />
+                        <Text style={styles.priorityTitle}>Short Term</Text>
+                    </View>
+                    <View style={styles.radio}>
+                        <RadioButton
+                            value='Long Term'
+                            status={isLongTerm ? 'checked' : 'unchecked'}
+                            onPress={() => setLongTerm(true)}
+                        />
+                        <Text style={styles.priorityTitle}>Long Term</Text>
+                    </View>
+                </View>
+
                 <Button
                     loading={loading}
                     style={styles.btn}
@@ -163,7 +189,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 32,
         lineHeight: 48,
-        marginTop: 52,
+        marginTop: 15,
         textAlign: 'center',
         color: 'rgba(23, 26, 31, 1)',
     },
@@ -175,7 +201,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 8,
         gap: 9,
-        marginTop: 30,
+        marginTop: 15,
         marginHorizontal: 20,
     },
     searchImage: {
@@ -195,7 +221,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 12,
-        marginTop: 63,
+        marginTop: 15,
         alignSelf: 'center',
     },
     btnText: {
@@ -208,11 +234,22 @@ const styles = StyleSheet.create({
     },
     priority: {
         marginHorizontal: 20,
-        marginTop: 30,
+        marginTop: 15,
         gap: 6,
     },
     priorityTitle: {
         fontSize: 16,
         lineHeight: 24,
+    },
+    radios: {
+        marginHorizontal: 20,
+        marginTop: 15,
+        gap: 6,
+        flexDirection: 'row',
+    },
+    radio: {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
     },
 });

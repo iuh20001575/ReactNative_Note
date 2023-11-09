@@ -39,7 +39,10 @@ export default function Task({ task, refetch }) {
                 source={require('../../assets/check_icon.png')}
                 style={styles.image}
             />
-            <Text style={styles.title}>{task.title}</Text>
+            <View style={styles.info}>
+                <Text style={styles.title}>{task.title}</Text>
+                {task.isLongTerm && <Text style={styles.term}>Long term</Text>}
+            </View>
             <Pressable onPress={handleEditJob}>
                 <Image
                     source={require('../../assets/edit_icon.png')}
@@ -77,11 +80,18 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
     },
-    title: {
+    info: {
         flex: 1,
+    },
+    title: {
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 26,
+        color: 'rgba(23, 26, 31, 1)',
+    },
+    term: {
+        fontSize: 14,
+        lineHeight: 22,
         color: 'rgba(23, 26, 31, 1)',
     },
 });
