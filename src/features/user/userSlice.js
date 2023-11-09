@@ -17,6 +17,18 @@ const login = createAsyncThunk('user/login', async ({ username, password }) => {
     return res.json();
 });
 
+const registry = createAsyncThunk('user/registry', async (data) => {
+    const res = await fetch(`${configs.ENDPOINT_DEV}/users`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify(data),
+    });
+
+    return res.json();
+});
+
 export const counterSlice = createSlice({
     name: 'user',
     initialState,
@@ -32,10 +44,20 @@ export const counterSlice = createSlice({
             state.loading = false;
             state.user = payload.data;
         });
+        builder.addCase(registry.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(registry.rejected, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(registry.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.user = payload;
+        });
     },
 });
 
 export const {} = counterSlice.actions;
-export { login };
+export { login, registry };
 
 export default counterSlice.reducer;

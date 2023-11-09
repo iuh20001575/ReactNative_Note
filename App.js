@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { store } from './src/app/store';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
+import Registry from './src/screens/Registry';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,16 +39,14 @@ const screens = [
     {
         name: 'Login',
         component: Login,
-        options: {
-            headerShown: false,
-        },
     },
     {
         name: 'Home',
         component: Home,
-        options: {
-            headerShown: false,
-        },
+    },
+    {
+        name: 'Registry',
+        component: Registry,
     },
 ];
 
@@ -56,7 +55,10 @@ function App() {
         <Provider store={store}>
             <PaperProvider theme={theme}>
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName='Login'>
+                    <Stack.Navigator
+                        screenOptions={{ headerShown: false }}
+                        initialRouteName='Login'
+                    >
                         {screens.map((screen) => (
                             <Stack.Screen key={uuid.v4()} {...screen} />
                         ))}
